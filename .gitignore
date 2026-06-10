@@ -1,0 +1,5 @@
+*.log
+*.mp4
+*.tgz
+.env
+__pycache__/
