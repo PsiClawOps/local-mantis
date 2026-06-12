@@ -24,6 +24,40 @@ The recommended direction is to turn `local-mantis` into a small proof-capture r
 
 The long-term product should be named around proof, not Mantis itself. Internally we can keep `local-mantis` as the fork, but the architecture should be `ProofRig`: a local, reproducible evidence system for OpenClaw behavior.
 
+## Product decision
+
+Yes, PsiClawOps should adapt this fork, but the adaptation should make Telegram an edition, not the center of the product.
+
+The valuable thing in `local-mantis` is not the Telegram integration itself. The valuable thing is the repeatable proof loop:
+
+```text
+prepare isolated runtime -> drive a real user surface -> observe the visible result -> record it -> validate it -> package proof
+```
+
+The first PsiClawOps-native target should be `clickclack-web` because it gives us a controlled surface, better visual quality, and stronger product proof than a Telegram client can provide. Telegram remains useful for transport regression and historical Mantis equivalence, but the default proof artifact should demonstrate OpenClaw behavior in Clickclack.
+
+## Grounded review findings
+
+### High: Telegram is fused into the current runtime
+
+The existing scripts and skill manual assume Telegram Desktop, observer `tdata`, tdlib driver state, bot tokens, chat IDs, deep links, `getUpdates` drains, and Telegram-specific crop geometry. That is correct for the original Mantis-compatible workflow, but it means the current repo proves Telegram-visible behavior by default.
+
+For our goal, this boundary is too narrow. We want proof that the user-facing OpenClaw surface behaved correctly. Telegram should become `proofrig/editions/telegram-desktop`, while Clickclack becomes `proofrig/editions/clickclack-web`.
+
+### Medium: orchestration is copied across scenarios
+
+`mantis-dm.sh`, `mantis-group.sh`, `mantis-echo.sh`, `mantis-topic-wake.sh`, and `mantis-verbose.sh` each carry their own version of cleanup, display startup, gateway startup, driver waits, capture, export, and teardown. That made sense while recovering the proof flow under pressure, but it is the wrong shape for new editions.
+
+The first implementation task should be to extract shared runtime functions before adding Clickclack. Otherwise the Clickclack edition will repeat the same shell-risk surface and become another one-off.
+
+### Medium: artifact validity is not yet a contract
+
+Today, proof is human-readable but not strongly automation-readable. We need every run to emit `proof.json`, hashes, scenario metadata, visible-surface assertions, `notTested` notes, and paths to artifacts. This gives Crabbox, PR comments, release notes, and future proof search one stable object to consume.
+
+### Medium: proof quality is a product requirement
+
+For Clickclack, a technically correct screenshot is not enough. The artifact should show the user prompt, status/progress behavior where relevant, the final answer, and absence of duplicate/stale/wrong-channel output. The proof should be clean enough to attach to a PR and to reuse as a product example.
+
 ## What exists today
 
 The repo currently contains:
@@ -601,6 +635,12 @@ External docs and reference material:
 
 - Crabbox provider reference: https://crabbox.sh/providers/index.html
 - Crabbox local-container provider: https://crabbox.sh/providers/local-container.html
+- Crabbox configuration aliases for local Docker runs: https://crabbox.sh/features/configuration.html
+- Crabbox `run` as the core local checkout sync and execute verb: https://crabbox.sh/commands/run.html
+- Crabbox `doctor` as the non-destructive preflight gate: https://crabbox.sh/commands/doctor.html
+- Crabbox architecture boundary between control plane and execution: https://crabbox.sh/architecture.html
+- Crabbox local desktop and VNC helpers: https://crabbox.sh/features/interactive-desktop-vnc.html
+- Crabbox lifecycle and cleanup behavior: https://crabbox.sh/features/lifecycle-cleanup.html
 - Crabbox getting started: https://crabbox.sh/getting-started.html
 - Crabbox infrastructure/self-hosted broker notes: https://crabbox.sh/infrastructure.html
 - Crabbox provider authoring: https://crabbox.sh/features/provider-authoring.html
