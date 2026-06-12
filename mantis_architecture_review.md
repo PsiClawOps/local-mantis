@@ -1,7 +1,7 @@
 # local-mantis architecture review and PsiClawOps proof-capture plan
 
 Status: architectural review and implementation plan
-Date: 2026-06-11
+Date: 2026-06-12
 Repos reviewed: `PsiClawOps/local-mantis`, `PsiClawOps/crabbox`
 Primary product target: high-quality Clickclack behavior proof, not Telegram-specific test coverage
 
@@ -588,7 +588,14 @@ Local repo material:
 
 - `PsiClawOps/local-mantis` README and `SKILL.md`.
 - Existing `mantis-*.sh` scripts, especially `mantis-dm.sh`, `mantis-group.sh`, `mantis-echo.sh`, and topic wake variants.
-- `PsiClawOps/crabbox` architecture and provider docs.
+- `PsiClawOps/crabbox` docs consulted for the adaptation boundary:
+  - `docs/architecture.md`
+  - `docs/providers/local-container.md`
+  - `docs/features/interactive-desktop-vnc.md`
+  - `docs/features/lifecycle-cleanup.md`
+  - `docs/getting-started.md`
+  - `docs/infrastructure.md`
+  - `docs/provider-backends.md`
 
 External docs and reference material:
 
@@ -597,4 +604,7 @@ External docs and reference material:
 - Crabbox getting started: https://crabbox.sh/getting-started.html
 - Crabbox infrastructure/self-hosted broker notes: https://crabbox.sh/infrastructure.html
 - Crabbox provider authoring: https://crabbox.sh/features/provider-authoring.html
+- Crabbox architecture: https://crabbox.sh/architecture.html
+- Crabbox interactive desktop and VNC: https://crabbox.sh/features/interactive-desktop-vnc.html
+- Crabbox lifecycle and cleanup: https://crabbox.sh/features/lifecycle-cleanup.html
 - Docker Compose lifecycle hooks: https://docs.docker.com/compose/how-tos/lifecycle/
